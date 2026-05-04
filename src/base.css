@@ -6,6 +6,21 @@
 @layer base {
 	html {
 		@apply text-md;
+		background-color: var(--background-primary);
+		color: var(--foreground-primary);
+	}
+
+	body {
+		background-color: var(--background-primary);
+		color: var(--foreground-primary);
+	}
+
+	#storybook-root,
+	.sb-show-main,
+	.sbdocs,
+	.docs-story {
+		background-color: var(--background-primary);
+		color: var(--foreground-primary);
 	}
 
 	:focus-visible {

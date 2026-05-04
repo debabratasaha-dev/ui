@@ -7,12 +7,10 @@ const THEME_OPTIONS = {
 	light: {
 		name: "Light",
 		value: "light-palette",
-		backgroundColor: "#f5f6f7",
 	},
 	dark: {
 		name: "Dark",
 		value: "dark-palette",
-		backgroundColor: "#1b1b32",
 	},
 } as const;
 
@@ -21,41 +19,26 @@ const THEME_OPTIONS = {
  */
 const WithThemeProvider: Decorator = (Story, context) => {
 	const theme = context.globals.theme || THEME_OPTIONS.light.value;
-	const themeConfig =
-		Object.values(THEME_OPTIONS).find((t) => t.value === theme) ||
-		THEME_OPTIONS.light;
 
 	useEffect(() => {
 		const body = document.body;
+		const html = document.documentElement;
 
 		Object.values(THEME_OPTIONS).forEach((t) => {
 			body.classList.remove(t.value);
+			html.classList.remove(t.value);
 		});
 
 		body.classList.add(theme);
-
-		// Story page
-		const canvas = document.querySelector(".sb-show-main") as HTMLElement;
-
-		// Docs page
-		const docsStories = document.querySelectorAll(".docs-story");
-
-		if (canvas) {
-			canvas.style.backgroundColor = themeConfig.backgroundColor;
-		}
-
-		if (docsStories.length > 0) {
-			docsStories.forEach((el) => {
-				(el as HTMLElement).style.backgroundColor = themeConfig.backgroundColor;
-			});
-		}
+		html.classList.add(theme);
 
 		return () => {
 			Object.values(THEME_OPTIONS).forEach((t) => {
 				body.classList.remove(t.value);
+				html.classList.remove(t.value);
 			});
 		};
-	}, [theme, themeConfig.backgroundColor]);
+	}, [theme]);
 
 	return <Story />;
 };
